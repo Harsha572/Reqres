@@ -65,18 +65,30 @@ Your hosting service (GitHub Pages/Vercel/Netlify) should automatically update t
 
 ## Folder Structure
 ```
-project-root/
-│── src/
-│   ├── components/
-│   ├── pages/
-│   │   ├── Login.js
-│   │   ├── Users.js
-│   │   ├── EditUser.js
-│   ├── App.js
-│   ├── index.js
-│── public/
-│── package.json
-│── README.md
+
+root-directory/
+│── dist/                # Production build folder (auto-generated)
+│── node_modules/        # Dependencies (auto-generated)
+│── public/              # Static assets (e.g., images, favicon)
+│── src/                 # Main source code
+│   ├── components/      # UI components
+│   │   ├── edituser/      
+│   │   │   ├── index.js
+│   │   │   ├── index.css
+│   │   ├── userslist/
+│   │   │   ├── index.js
+│   │   │   ├── index.css
+│   │   ├── login/
+│   │   │   ├── index.js
+│   │   │   ├── index.css
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   ├── main.jsx
+│── package.json         # Project dependencies & scripts
+│── package-lock.json    # Locks dependency versions
+│── README.md            # Project documentation
+
 ```
 
 ## API Reference
