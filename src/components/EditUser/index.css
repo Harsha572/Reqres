@@ -8,7 +8,6 @@
   text-align: center;
 }
 
-/* Responsive adjustments */
 @media screen and (max-width: 1024px) {
   .edit-container {
     width: 50vw;

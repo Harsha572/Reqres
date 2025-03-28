@@ -11,7 +11,7 @@ function Login({ setToken }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/users"); // Redirect if already logged in
+      navigate("/users");
     }
   }, []);
 
