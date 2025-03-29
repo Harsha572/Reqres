@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://harsha572.github.io/reqres/",
+  "homepage": "https://Harsha572.github.io/reqres/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
