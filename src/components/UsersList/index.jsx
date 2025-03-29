@@ -28,22 +28,46 @@ function UsersList() {
       navigate("/login");
       return;
     }
-    
-    const url = `https://reqres.in/api/users?page=${num}`;
-    const response = await fetch(url);
-    if (response.ok) {
+  
+    try {
+      const url = `https://reqres.in/api/users?page=${num}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch users");
       const data = await response.json();
-      setUserList(data.data);
+  
+      // Get deleted users list from localStorage
+      const deletedUsers = JSON.parse(localStorage.getItem("deletedUsers")) || [];
+  
+      // Merge updated user details and filter out deleted users
+      const updatedUsers = data.data
+        .map((user) => {
+          const storedUser = localStorage.getItem(`user_${user.id}`);
+          return storedUser ? JSON.parse(storedUser) : user;
+        })
+        .filter((user) => !deletedUsers.includes(user.id)); // Exclude deleted users
+  
+      setUserList(updatedUsers);
       setApiStatus(apiConstants.success);
-    } else {
+    } catch (error) {
+      console.error("Error fetching users:", error);
       setApiStatus(apiConstants.failure);
     }
   };
-
+  
+  
   const deleteUser = (id) => {
-    setUserList(userList.filter((i) => i.id !== id));
+    // Get previously deleted users from localStorage
+    const deletedUsers = JSON.parse(localStorage.getItem("deletedUsers")) || [];
+  
+    // Add the new deleted user to the list
+    deletedUsers.push(id);
+    localStorage.setItem("deletedUsers", JSON.stringify(deletedUsers));
+  
+    // Update state to remove user
+    setUserList((prevUsers) => prevUsers.filter((user) => user.id !== id));
   };
-
+  
+  
   const filteredUsers = userList.filter((user) =>
     `${user.first_name} ${user.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -63,14 +87,16 @@ function UsersList() {
       ) : (
         <ul className="users-list">
           {filteredUsers.map((user) => (
-            <li className="user-item" key={user.id}>
-              <div className="buttons-div">
-                <button className="edit-button" onClick={() => navigate(`/edit/${user.id}`)}>Edit</button>
-                <button className="delete-button" onClick={() => deleteUser(user.id)}>Delete</button>
-              </div>
-              <img className="avatar" src={user.avatar} alt={`${user.first_name} ${user.last_name}`} />
-              <h3 className="name">{user.first_name} {user.last_name}</h3>
-            </li>
+            user.id ? (
+              <li className="user-item" key={user.id}>
+                <div className="buttons-div">
+                  <button className="edit-button" onClick={() => navigate(`/edit/${user.id}`)}>Edit</button>
+                  <button className="delete-button" onClick={() => deleteUser(user.id)}>Delete</button>
+                </div>
+                <img className="avatar" src={user.avatar} alt={`${user.first_name} ${user.last_name}`} />
+                <h3 className="name">{user.first_name} {user.last_name}</h3>
+              </li>
+            ) : null
           ))}
         </ul>
       )}

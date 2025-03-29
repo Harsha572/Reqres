@@ -37,12 +37,22 @@ function EditUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const updatedUser = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        avatar: user.avatar,  // Ensure avatar is retained
+        id: id,  // Ensure ID is retained
+      };
+  
       const response = await fetch(`https://reqres.in/api/users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ first_name: user.first_name, last_name: user.last_name, email: user.email })
+        body: JSON.stringify(updatedUser),
       });
+  
       if (response.ok) {
+        localStorage.setItem(`user_${id}`, JSON.stringify(updatedUser));
         alert("User details updated successfully!");
         navigate("/users");
       } else {
@@ -52,8 +62,8 @@ function EditUser() {
       console.error("Error updating user details:", error);
       setIsError(true);
     }
-  };
-
+  };  
+  
   if (isLoading) return <p>Loading user details...</p>;
   if (isError) return <p className="error-message">Error loading user details. Please try again.</p>;
 
