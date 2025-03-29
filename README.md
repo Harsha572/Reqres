@@ -85,6 +85,7 @@ root-directory/
 │   ├── App.jsx
 │   ├── index.css
 │   ├── main.jsx
+|__ index.html
 │── package.json         # Project dependencies & scripts
 │── package-lock.json    # Locks dependency versions
 │── README.md            # Project documentation
