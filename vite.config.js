@@ -6,5 +6,5 @@ export default defineConfig({
   resolve: {
     extensions: ['.js','.jsx'],
   },
-  base: '/Reqres/',
+  base: '/reqres/',
 });
